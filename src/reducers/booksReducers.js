@@ -27,7 +27,7 @@ export default (state = initialState, action) => {
 
 		case 'DELETE_BOOK':
 			const currentBookToDelete = [...state.books]
-			const indexToDelete = currentBookToDelete.findIndex(item => item._id == action.payload._id)
+			const indexToDelete = currentBookToDelete.findIndex(item => item._id == action.payload)
 
 			return {
 				books: [...currentBookToDelete.slice(0, indexToDelete), ...currentBookToDelete.slice(indexToDelete+1)]
