@@ -1,5 +1,7 @@
 const initialState = {
-	cart: []
+	cart: [],
+	totalAmount: 0,
+	totalQty: 0
 }
 
 export default (state = initialState, action) => {
@@ -7,14 +9,18 @@ export default (state = initialState, action) => {
 		case 'ADD_TO_CART':
 			return {
 				...state,
-				cart: [...state, ...action.payload]
+				cart: action.payload,
+				totalAmount: totals(action.payload).amount,
+				totalQty: totals(action.payload).qty
 			}
 		break
 
 		case 'DELETE_CART_ITEM':
 			return {
 				...state,
-				cart: [...state, ...action.payload]
+				cart: action.payload,
+				totalAmount: totals(action.payload).amount,
+				totalQty: totals(action.payload).qty
 			}
 		break
 
@@ -34,10 +40,27 @@ export default (state = initialState, action) => {
 
 			return {
 				...state,
-				cart: cartUpdate
+				cart: cartUpdate,
+				totalAmount: totals(cartUpdate).amount,
+				totalQty: totals(cartUpdate).qty
 			}
 		break
 	}
 
 	return state
+}
+
+export const totals = payloadArr => {
+	const totalAmount = payloadArr.map(item => {
+		return item.price * item.quantity
+	}).reduce((a, b) => a + b, 0)
+	
+	const totalQty = payloadArr.map(item => {
+		return item.quantity
+	}).reduce((a, b) => a + b, 0)
+
+	return {
+		amount: totalAmount.toFixed(2),
+		qty: totalQty
+	}
 }

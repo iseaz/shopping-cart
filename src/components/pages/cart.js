@@ -5,6 +5,14 @@ import { bindActionCreators } from 'redux'
 import { deleteCartItem, updateCart } from '../../actions/cartActions'
 
 class Cart extends Component {
+	constructor(props){
+		super(props)
+
+		this.state = {
+			showModal: false
+		}
+	}
+
 	onDelete(_id){
 		const currentCartToDelete = this.props.cart
 		const indexToDelete = currentCartToDelete.findIndex(item => item._id == _id)
@@ -22,6 +30,18 @@ class Cart extends Component {
 		if (quantity > 1) {
 			this.props.updateCart(_id, -1)
 		}
+	}
+
+	onCheckout = () => {
+		this.setState({
+			showModal: true
+		})
+	}
+
+	close = () => {
+		this.setState({
+			showModal: false
+		})
 	}
 
 	renderCart = () => {
@@ -60,11 +80,27 @@ class Cart extends Component {
 
 					<Row>
 						<Col xs={12}>
-							<h6>Total amount:</h6>
-							<Button bsStyle="success" bsSize="small">Proceed to checkout</Button>
+							<h6>Total amount $: {this.props.totalAmount}</h6>
+							<Button bsStyle="success" bsSize="small" onClick={this.onCheckout}>Proceed to checkout</Button>
 						</Col>
 					</Row>
 				</Panel.Body>
+
+				<Modal show={this.state.showModal} onHide={this.close}>
+					<Modal.Header closeButton>
+						<Modal.Title>Modal heading</Modal.Title>
+					</Modal.Header>
+					<Modal.Body>
+						<h6>Your order has been saved</h6>
+						<p>you will receive an email confirmation</p>
+					</Modal.Body>
+					<Modal.Footer>
+						<Col xs={6}>
+							<h6>total $: {this.props.totalAmount}</h6>
+						</Col>
+						<Button onClick={this.close}>Close</Button>
+					</Modal.Footer>
+				</Modal>
 			</Panel>
 		)
 	}
@@ -82,7 +118,8 @@ class Cart extends Component {
 
 const mapStateToProps = state => {
 	return {
-		cart: state.cart.cart
+		cart: state.cart.cart,
+		totalAmount: state.cart.totalAmount
 	}
 }
 
