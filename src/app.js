@@ -8,8 +8,6 @@ import BooksList from './components/pages/booksList'
 
 // step 3 define reducers
 import reducers from './reducers'
-import { addTocart } from './actions/cartActions'
-import { postBooks, deleteBooks, updateBooks } from './actions/booksActions'
 
 // step 1 create the store
 const middleware = applyMiddleware(logger)

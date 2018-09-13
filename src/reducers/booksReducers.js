@@ -1,11 +1,11 @@
 const initialState = {
 	books: [{
-		id: 1,
+		_id: 1,
 		title: 'This is the book title',
 		description: 'This is the book description',
 		price: 33.33
 	}, {
-		id: 2,
+		_id: 2,
 		title: 'This is the second book title',
 		description: 'This is the second book description',
 		price: 57.64
@@ -27,7 +27,7 @@ export default (state = initialState, action) => {
 
 		case 'DELETE_BOOK':
 			const currentBookToDelete = [...state.books]
-			const indexToDelete = currentBookToDelete.findIndex(item => item.id == action.payload.id)
+			const indexToDelete = currentBookToDelete.findIndex(item => item._id == action.payload._id)
 
 			return {
 				books: [...currentBookToDelete.slice(0, indexToDelete), ...currentBookToDelete.slice(indexToDelete+1)]
@@ -36,7 +36,7 @@ export default (state = initialState, action) => {
 
 		case 'UPDATE_BOOK':
 			const currentBookToUpdate = [...state.books]
-			const indexToUpdate = currentBookToUpdate.findIndex(item => item.id == action.payload.id)
+			const indexToUpdate = currentBookToUpdate.findIndex(item => item._id == action.payload._id)
 			const newBookToUpdate = {
 				...currentBookToUpdate[indexToUpdate],
 				title: action.payload.title
